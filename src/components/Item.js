@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-function Item({ name, category }) {
-  const [isInCart, setIsInCart] = useState(false);
+function Item({ name, category, cart, addToCart, removeFromCart }) {
+  const [item, setItem] = useState(cart);
 
-  function handleAddToCartClick() {
-    setIsInCart((isInCart) => !isInCart);
+  const cartClass = item ? 'in-cart' : '';
+
+  // this is to maintain the elements in the cart even after the filtering
+  function setCart() {
+    setItem(!item);
+    item ? removeFromCart() : addToCart();
   }
 
   return (
-    <li className={isInCart ? "in-cart" : ""}>
+    <li className={cartClass}>
       <span>{name}</span>
       <span className="category">{category}</span>
-      <button
-        className={isInCart ? "remove" : "add"}
-        onClick={handleAddToCartClick}
-      >
-        {isInCart ? "Remove From" : "Add to"} Cart
+      <button onClick={setCart} className={item ? 'remove' : 'add'}>
+        {item ? 'Remove From Cart' : 'Add to Cart'}
       </button>
     </li>
   );
